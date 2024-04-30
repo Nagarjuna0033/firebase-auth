@@ -1,38 +1,288 @@
-.App {
-  text-align: center;
+body {
+    /* margin: 0;
+    padding: 0; */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+._s0b13 {
+    background-color: rgb(59, 103, 235);
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    width: fit-content;
+    text-align: center;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+._s0b23 h1 {
+    color: white;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+._s0b23 i {
+    font-size: 9rem;
+    margin: 1rem 1rem;
+}
+._s0b33 button {
+    font-size: 1.19rem;
+    font-weight: bold;
+    background-color: rgb(240, 210, 39);
+    padding: 0.5rem;
+    border-radius: 0.7rem;
+    outline: none;
+    border: none;
+    width: 15rem;
+    margin-top: 3rem;
+    cursor: pointer;
+}
+._s0b33 h5 {
+    font-size: 0.9rem;
+    color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* Signi page Styles */
+
+body {
+    background-color: #f2f2f2;
+}
+.wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(59, 103, 235);
+    align-content: center;
+    /* padding: 1rem; */
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.inner-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: white;
+    border-top-left-radius: 2.1rem;
+}
+.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem;
+}
+._s0h13 .fa-user {
+    font-size: 5rem;
+    /* margin-top: 1rem; */
+}
+/* ._s0h13 .options {
+   
+} */
+
+.fa-google {
+    background: conic-gradient(
+            from -45deg,
+            #ea4335 110deg,
+            #4285f4 90deg 180deg,
+            #34a853 180deg 270deg,
+            #fbbc05 270deg
+        )
+        73% 55%/150% 150% no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.username,
+.email,
+.password {
+    display: flex;
+    flex-direction: column;
+}
+label {
+    color: gray;
+    font-size: 1.1rem;
+    margin: 0.3rem 0rem 0.3rem 0rem;
+}
+.inputs input {
+    font-size: 1rem;
+
+    padding: 0.5rem;
+    outline: none;
+    border: 2px solid rgb(201, 201, 201);
+    border-radius: 0.5rem;
+}
+.inputs input:focus {
+    border: 2px solid rgb(166, 165, 165);
+}
+.inputs button {
+    font-size: 1.19rem;
+    font-weight: bold;
+    background-color: rgb(240, 210, 39);
+    padding: 0.7rem;
+    border-radius: 0.7rem;
+    outline: none;
+    border: none;
+    width: 17rem;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+.inputs .error {
+    margin-top: 0.5rem;
+    color: red;
+    font-weight: bold;
+}
+.media {
+    text-align: center;
+}
+.media .options {
+    margin: 0rem 1.5rem 0rem 1.5rem;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.1rem;
+}
+.link {
+    text-decoration: none;
+    color: blue;
+}
+.back {
+    font-size: 1.7rem;
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.5rem;
+}
+.back:hover {
+    background-color: gray;
+}
+.username {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 1rem 0rem 1rem 0rem;
+}
+.username .opt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.opt {
+    color: blue;
+}
+
+.username .opt h5 {
+    cursor: pointer;
+}
+
+.toast {
+    padding: 1rem;
+    border: 0;
+    background-color: red;
+    color: white;
+    font-size: 1.1rem;
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        /* background-color: royalblue; */
+        background-color: rgb(59, 103, 235);
+
+        height: fit-content;
+        display: flex;
+        justify-content: center;
+        /* align-items: center; */
+    }
+    .icon {
+        display: flex;
+        justify-content: center;
+        /* padding: 1rem; */
+        margin-top: 1.7rem;
+    }
+    ._s0b13 {
+        box-shadow: none;
+        margin-top: 3rem;
+    }
+    ._s0b23 h1 {
+        margin-top: 3rem;
+    }
+    ._s0b33 button {
+        padding: 0.9rem;
+        width: 19rem;
+    }
+    ._s0b23 i {
+        font-size: 11rem;
+        margin: 6.1rem 6.1rem;
+    }
+    .wrapper {
+        box-shadow: none;
+        flex-direction: column;
+        position: static;
+    }
+    #login-wrapper {
+        padding: 2.1rem 0rem 2.1rem 0rem;
+    }
+    #login-user {
+        font-size: 7rem;
+    }
+    /* #error {
+        padding: 0.1rem 0rem 0.1rem 0rem;
+    } */
+
+    #media i {
+        padding: 0.1rem 0rem 0.1rem 0rem;
+    }
+    .inner-wrapper {
+        /* height: 15rem; */
+        flex-direction: column;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        border-top-left-radius: 2.1rem;
+        border-top-right-radius: 2.1rem;
+        padding: 0.5rem 0rem 0.5rem 0rem;
+    }
+    input {
+        font-size: 1.19rem;
+        padding: 0.5rem;
+        outline: none;
+        border: 2px solid rgb(201, 201, 201);
+        border-radius: 0.5rem;
+    }
+    .inputs button {
+        padding: 0.9rem;
+        width: 19rem;
+        margin-top: 1rem;
+    }
+    .inputs input {
+        padding: 0.7rem;
+    }
+    .media .fa-brands {
+        margin-top: 0.3rem;
+    }
+    .media h5 {
+        font-size: 1rem;
+    }
+    .inputs label {
+        margin: 0.5rem 0rem 0.5rem 0rem;
+    }
+    ._s0h13 .fa-user {
+        font-size: 5.7rem;
+        margin-bottom: 15rem;
+    }
+    .inputs .error {
+        margin: 0.3rem 0rem 0.3rem 0rem;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    #home-wrapper {
+        padding: 5rem 0rem 5rem 0rem;
+    }
 }
