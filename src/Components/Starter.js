@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function Starter() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (localStorage.getItem("uid")) {
+            navigate("/Home");
+        }
+    }, []);
     return (
         <>
             <div className="_s0b13">

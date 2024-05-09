@@ -1,75 +1,179 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import { Link } from "react-router-dom";
 import auth from "../Db/Sdk";
-import db from "../Db/Db";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-export default function Signin() {
-    const signUpUser = (e) => {
-        createUserWithEmailAndPassword(auth, e.email, e.password)
-            .then((userCredential) => {
-                // Signed up
-                const user = userCredential.user;
-                console.log(user);
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMsg = error.message;
-                // ..
-                console.log("Code :" + errorCode);
-                console.log("Msg :" + errorMsg);
+import Otp from "./Otp";
+
+import authContext from "../Context/Authentication/AuthContext";
+
+export default function Signin(props) {
+    const authOp = useContext(authContext);
+    const username = useRef();
+
+    const {
+        signInWithX,
+        signInWithFacebook,
+        signUpUserWithEmailAndPassword,
+        signInWithGoogle,
+        onSignInSubmit,
+        phone,
+        changePhone,
+        enableOtp,
+        showOtp,
+    } = authOp;
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (localStorage.getItem("uid")) {
+            navigate("/Home");
+        }
+        props.changeOpt({
+            palceholder: "Enter your email",
+            class: "fa-phone",
+            type: "email",
+            value: "values.email",
+        });
+    }, []);
+
+    const changeLogInOpt = () => {
+        username.current.disabled = true;
+
+        if (props.loginOpt.type === "email") {
+            props.changeOpt({
+                palceholder: "Enter your Phone",
+                class: "fa-envelope",
+                type: "tel",
+                value: "values.tel",
             });
+            props.changeInit({
+                tel: "",
+            });
+            changePhone({
+                isPhone: true,
+                buttonText: "Send otp",
+            });
+        } else {
+            username.current.disabled = false;
+
+            props.changeOpt({
+                placeholder: "Enter your email",
+                class: "fa-phone",
+                type: "email",
+                value: "values.email",
+            });
+            props.changeInit({
+                username: "",
+                email: "",
+                password: "",
+            });
+            changePhone({
+                isPhone: false,
+                buttonText: "Sign Up",
+            });
+        }
+    };
+
+    // const sendOtp = (e) => {
+
+    //     reCaptcheVerifier();
+    // };
+    const goto = () => {
+        navigate("/Signin");
+        enableOtp(false);
     };
 
     return (
         <>
             <div className="wrapper _s0h13">
-                <Link to="/">
-                    <i className="fa-solid fa-arrow-left  back" id="back"></i>
-                </Link>
+                {showOtp ? (
+                    <Link to="/Signin">
+                        <i
+                            className="fa-solid fa-arrow-left  back"
+                            id="back"
+                            onClick={goto}
+                        ></i>
+                    </Link>
+                ) : (
+                    <Link to="/">
+                        <i
+                            className="fa-solid fa-arrow-left  back"
+                            id="back"
+                        ></i>
+                    </Link>
+                )}
+
                 <div className="icon">
                     <i className="fa-solid fa-user sign-user"></i>
                 </div>
                 <div className="inner-wrapper">
-                    <div className="inputs _s0h23">
+                    <div
+                        className="inputs _s0h23"
+                        style={
+                            showOtp ? { display: "none" } : { display: "block" }
+                        }
+                    >
                         <Formik
-                            initialValues={{
-                                username: "",
-                                email: "",
-                                password: "",
-                            }}
+                            initialValues={props.init}
                             validate={(values) => {
                                 const errors = {};
-                                if (!values.email) {
-                                    errors.email = "Email Required";
-                                } else if (
-                                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-                                        values.email
-                                    )
-                                ) {
-                                    errors.email = "Invalid email address";
+                                if (props.loginOpt.type === "email") {
+                                    if (!values.email) {
+                                        errors.email = "Email Required";
+                                    } else if (
+                                        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+                                            values.email
+                                        )
+                                    ) {
+                                        errors.email = "Invalid email address";
+                                    }
                                 }
-                                if (!values.password) {
-                                    errors.password = "Password Required";
-                                } else if (values.password.length < 6) {
-                                    errors.password =
-                                        "password must be 6 letters";
+                                if (props.loginOpt.type === "email") {
+                                    if (!values.password) {
+                                        errors.password = "Password Required";
+                                    } else if (values.password.length < 6) {
+                                        errors.password =
+                                            "password must be 6 letters";
+                                    }
                                 }
 
-                                if (!values.username) {
-                                    errors.username = "Username Requried";
+                                if (username.current.disabled === false) {
+                                    if (!values.username) {
+                                        errors.username = "Username Requried";
+                                    }
                                 }
-
+                                if (props.loginOpt.type === "tel") {
+                                    if (!values.tel) {
+                                        errors.tel = "Phone Required";
+                                    } else if (
+                                        values.tel.length > 10 ||
+                                        values.tel.length < 10
+                                    ) {
+                                        errors.tel = "Invalid phone number";
+                                    }
+                                }
                                 return errors;
                             }}
                             onSubmit={(values, { setSubmitting }) => {
                                 setTimeout(() => {
-                                    signUpUser(
-                                        JSON.parse(
-                                            JSON.stringify(values, null, 2)
-                                        )
-                                    );
+                                    !phone.isPhone
+                                        ? signUpUserWithEmailAndPassword(
+                                              JSON.parse(
+                                                  JSON.stringify(
+                                                      values,
+                                                      null,
+                                                      2
+                                                  )
+                                              )
+                                          )
+                                        : onSignInSubmit(
+                                              JSON.parse(
+                                                  JSON.stringify(
+                                                      values,
+                                                      null,
+                                                      2
+                                                  )
+                                              )
+                                          );
                                     setSubmitting(false);
                                 }, 400);
                             }}
@@ -84,31 +188,58 @@ export default function Signin() {
                                 /* and other goodies */
                             }) => (
                                 <form method="post" onSubmit={handleSubmit}>
-                                    <div className="username">
+                                    <div
+                                        className="username"
+                                        id="username"
+                                        style={
+                                            props.loginOpt.type === "tel"
+                                                ? { display: "none" }
+                                                : { display: "flex" }
+                                        }
+                                    >
                                         <label htmlFor="name">Username</label>
                                         <input
+                                            placeholder="Enter Username"
                                             type="text"
                                             name="username"
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                             value={values.username}
+                                            ref={username}
                                         />
                                     </div>
                                     <div className="email">
-                                        <label htmlFor="email">Email</label>
+                                        <label htmlFor={props.loginOpt.type}>
+                                            {props.loginOpt.type === "tel"
+                                                ? "Phone"
+                                                : "Email"}
+                                        </label>
                                         <input
-                                            type="email"
-                                            name="email"
+                                            placeholder={
+                                                props.loginOpt.type === "tel"
+                                                    ? "Enter your Phone"
+                                                    : "Enter your Email"
+                                            }
+                                            type={props.loginOpt.type}
+                                            name={props.loginOpt.type}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.email}
+                                            value={values[props.loginOpt.type]}
                                         />
                                     </div>
-                                    <div className="password">
+                                    <div
+                                        className="password"
+                                        style={
+                                            props.loginOpt.type === "tel"
+                                                ? { display: "none" }
+                                                : { display: "flex" }
+                                        }
+                                    >
                                         <label htmlFor="password">
                                             Password
                                         </label>
                                         <input
+                                            placeholder="Enter password"
                                             type="password"
                                             name="password"
                                             onChange={handleChange}
@@ -123,7 +254,9 @@ export default function Signin() {
                                             ? errors.username
                                             : errors.email
                                             ? errors.email
-                                            : errors.password}
+                                            : errors.password
+                                            ? errors.password
+                                            : errors.tel}
                                         {/* {errors.password} */}
                                     </div>
                                     <button
@@ -131,21 +264,36 @@ export default function Signin() {
                                         type="submit"
                                         disabled={isSubmitting}
                                     >
-                                        Sign Up
+                                        {phone.isPhone ? "Send otp" : "Sign Up"}
                                     </button>
                                 </form>
                             )}
                         </Formik>
                     </div>
-                    <div className="media">
+                    <div
+                        className="media"
+                        style={
+                            showOtp ? { display: "none" } : { display: "block" }
+                        }
+                    >
                         <h3>Or</h3>
-                        <i className="fa-brands fa-google options"></i>
+                        <i
+                            className="fa-brands fa-google options"
+                            onClick={signInWithGoogle}
+                        ></i>
                         <i
                             className="fa-brands fa-facebook options"
                             style={{ color: "#100dce" }}
+                            onClick={signInWithFacebook}
                         ></i>
-                        <i className="fa-brands fa-x-twitter options"></i>
-                        <i className="fa-solid fa-phone options"></i>
+                        <i
+                            className="fa-brands fa-x-twitter options"
+                            onClick={signInWithX}
+                        ></i>
+                        <i
+                            className={`fa-solid  ${props.loginOpt.class} options`}
+                            onClick={changeLogInOpt}
+                        ></i>
                         <h5>
                             Already have an account?{" "}
                             <Link className="link" to="/Login">
@@ -153,8 +301,10 @@ export default function Signin() {
                             </Link>
                         </h5>
                     </div>
+                    <Otp />
                 </div>
             </div>
+            <div id="recaptche-container"></div>
         </>
     );
 }
