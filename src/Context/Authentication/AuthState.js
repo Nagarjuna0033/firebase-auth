@@ -113,10 +113,10 @@ export default function AuthState(props) {
             })
             .catch((error) => {
                 const errorCode = error.code;
-                const errorMsg = error.message;
+                // const errorMsg = error.message;
                 // ..
-                console.log("Code :" + errorCode);
-                console.log("Msg :" + errorMsg);
+                // console.log("Code :" + errorCode);
+                // console.log("Msg :" + errorMsg);
                 failedNav(errorCode);
             });
     };
@@ -135,7 +135,7 @@ export default function AuthState(props) {
                     changeIsUser(true);
                 } else {
                     changeIsUser(false);
-                    console.log("in get data No data available");
+                    // console.log("in get data No data available");
                     localStorage.setItem("Username", "User");
                 }
             })
@@ -172,13 +172,13 @@ export default function AuthState(props) {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 const credential =
                     GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
+                // const token = credential.accessToken;
                 // The signed-in user info.
                 const user = result.user;
                 // IdP data available using getAdditionalUserInfo(result)
                 // ...
                 getUserName(user.uid);
-                console.log(isUser);
+                // console.log(isUser);
                 if (!isUser) {
                     saveIntoDb(user, user.displayName);
                     loadData(user.uid);
@@ -186,24 +186,26 @@ export default function AuthState(props) {
                 successNav("Logged in");
                 localStorage.setItem("uid", user.uid);
                 navigate("/Home");
-                console.log("token", token);
-                console.log("user", user);
+                // console.log("token", token);
+                // console.log("user", user);
             })
             .catch((error) => {
                 // Handle Errors here.
                 const errorCode = error.code;
-                const errorMessage = error.message;
+                // const errorMessage = error.message;
                 // The email of the user's account used.
-                const email = error.customData.email;
+                // const email = error.customData.email;
                 // The AuthCredential type that was used.
                 const credential =
                     GoogleAuthProvider.credentialFromError(error);
                 // ...
-                console.log("code", errorCode);
-                console.log("msg", errorMessage);
-                console.log("email", email);
-                console.log("cred", credential);
-                failedNav(errorCode);
+                // console.log("code", errorCode);
+                // console.log("msg", errorMessage);
+                // console.log("email", email);
+                // console.log("cred", credential);
+                if (errorCode !== "auth/popup-closed-by-user") {
+                    failedNav(errorCode);
+                }
             });
     };
 
@@ -218,13 +220,13 @@ export default function AuthState(props) {
                 // This gives you a Facebook Access Token. You can use it to access the Facebook API.
                 const credential =
                     FacebookAuthProvider.credentialFromResult(result);
-                const accessToken = credential.accessToken;
+                // const accessToken = credential.accessToken;
 
                 // IdP data available using getAdditionalUserInfo(result)
                 // ...
 
                 getUserName(user.uid);
-                console.log(isUser);
+                // console.log(isUser);
                 if (!isUser) {
                     saveIntoDb(user, user.displayName);
                     loadData(user.uid);
@@ -232,25 +234,28 @@ export default function AuthState(props) {
                 successNav("Logged in");
                 localStorage.setItem("uid", user.uid);
                 navigate("/Home");
-                console.log("token", accessToken);
-                console.log("user", user);
+                // console.log("token", accessToken);
+                // console.log("user", user);
             })
             .catch((error) => {
                 // Handle Errors here.
                 const errorCode = error.code;
-                const errorMessage = error.message;
+                // const errorMessage = error.message;
                 // The email of the user's account used.
-                const email = error.customData.email;
+                // const email = error.customData.email;
                 // The AuthCredential type that was used.
                 const credential =
                     FacebookAuthProvider.credentialFromError(error);
 
                 // ...
-                console.log("code", errorCode);
-                console.log("msg", errorMessage);
-                console.log("email", email);
-                console.log("cred", credential);
-                failedNav(errorCode);
+                // console.log("code", errorCode);
+                // console.log("msg", errorMessage);
+                // console.log("email", email);
+                // console.log("cred", credential);
+                // failedNav(errorCode);
+                if (errorCode !== "auth/popup-closed-by-user") {
+                    failedNav(errorCode);
+                }
             });
     };
     // Sign in with X
@@ -261,10 +266,10 @@ export default function AuthState(props) {
             .then((result) => {
                 // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
                 // You can use these server side with your app's credentials to access the Twitter API.
-                const credential =
-                    TwitterAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                const secret = credential.secret;
+                // const credential =
+                // TwitterAuthProvider.credentialFromResult(result);
+                // const token = credential.accessToken;
+                // const secret = credential.secret;
 
                 // The signed-in user info.
                 const user = result.user;
@@ -278,25 +283,28 @@ export default function AuthState(props) {
                 successNav("Logged in");
                 localStorage.setItem("uid", user.uid);
                 navigate("/Home");
-                console.log("token", token);
-                console.log("secret", secret);
-                console.log("user", user);
+                // console.log("token", token);
+                // console.log("secret", secret);
+                // console.log("user", user);
             })
             .catch((error) => {
                 // Handle Errors here.
                 const errorCode = error.code;
-                const errorMessage = error.message;
+                // const errorMessage = error.message;
                 // The email of the user's account used.
-                const email = error.customData.email;
+                // const email = error.customData.email;
                 // The AuthCredential type that was used.
-                const credential =
-                    TwitterAuthProvider.credentialFromError(error);
+                // const credential =
+                // TwitterAuthProvider.credentialFromError(error);
                 // ...
-                console.log("code", errorCode);
-                console.log("msg", errorMessage);
-                console.log("email", email);
-                console.log("cred", credential);
-                failedNav(errorCode);
+                // console.log("code", errorCode);
+                // console.log("msg", errorMessage);
+                // console.log("email", email);
+                // console.log("cred", credential);
+                // failedNav(errorCode);
+                if (errorCode !== "auth/popup-closed-by-user") {
+                    failedNav(errorCode);
+                }
             });
     };
 
@@ -427,7 +435,8 @@ export default function AuthState(props) {
                 successNav("Link sent to mail");
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error.code);
+                failedNav("User not exists");
             });
     };
     return (
